@@ -25,5 +25,6 @@ services:
             - '../src/Domain/' # Entidades puras não devem ser registradas como serviços
 
     # DIP (Dependency Inversion Principle): Mapeamento de Interfaces para Classes Concretas
-    App\Application\User\Port\UserRepositoryInterface: '@App\Infrastructure\Persistence\JsonUserRepository'
+    # Injeção de Dependência: UserRepositoryInterface -> DoctrineUserRepositorio
+    App\Application\User\Port\UserRepositoryInterface: '@App\Infrastructure\Persistence\DoctrineUserRepositorio'
     App\Application\User\Port\PasswordHasherInterface: '@App\Infrastructure\Security\NativePasswordHasher'

@@ -6,14 +6,27 @@ namespace App\Domain\User;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
+use Doctrine\ORM\Mapping as ORM;
 
-final class User
+#[ORM\Entity]
+#[ORM\Table(name: 'users')]
+class User
 {
     public function __construct(
+        #[ORM\Id]
+        #[ORM\Column(type: 'string', length: 36, unique: true)]
         private readonly string $id,
+
+        #[ORM\Column(type: 'string', length: 255)]
         private string $name,
+
+        #[ORM\Column(type: 'string', length: 255, unique: true)]
         private string $email,
+
+        #[ORM\Column(type: 'string', length: 255)]
         private string $passwordHash,
+
+        #[ORM\Column(type: 'datetime_immutable')]
         private readonly DateTimeImmutable $createdAt = new DateTimeImmutable()
     ) {
         $this->setName($name);
@@ -54,7 +67,7 @@ final class User
     public function changePassword(string $newPasswordHash): void
     {
         if (trim($newPasswordHash) === '') {
-            throw new InvalidArgumentException('O hash da senha não pode ser vazio.');
+            throw new InvalidArgumentException('O hash da palavra-passe não pode ser vazio.');
         }
 
         $this->passwordHash = $newPasswordHash;
