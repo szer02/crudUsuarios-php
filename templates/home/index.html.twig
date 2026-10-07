@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Início - Sistema de Gestão{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0 text-center p-5">
+            <div class="card-body">
+                <div class="mb-4">
+                    <i class="fa-solid fa-users-gear text-purple" style="font-size: 4rem;"></i>
+                </div>
+                <h1 class="h3 fw-bold mb-3">Bem-vindo ao Sistema</h1>
+                <p class="text-muted fs-5 mb-4">
+                    Para cadastro e gerenciamento de usuários, acesse o menu lateral.
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{{ path('user_index') }}" class="btn btn-purple px-4 py-2 shadow-sm">
+                        <i class="fa-solid fa-users me-2"></i>Ir para Usuários
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
