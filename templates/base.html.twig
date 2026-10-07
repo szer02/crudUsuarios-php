@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Gestão de Usuários{% endblock %}</title>
+
+        <!-- CSS Local -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/css/all.min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+    <body>
+        <div class="wrapper">
+            
+            {% block sidebar %}
+            <!-- Adicionámos o id="sidebar" para o JavaScript conseguir encontrá-la -->
+            <!-- Barra Lateral Esquerda -->
+            <aside class="sidebar d-flex flex-column p-3 shadow-sm" id="sidebar">
+                <a href="{{ path('home') }}" class="d-flex align-items-center mb-4 text-white text-decoration-none px-2 mt-2">
+                    <i class="fa-solid fa-users-gear fs-3 me-3"></i>
+                    <span class="fs-5 fw-bold">Admin Painel</span>
+                </a>
+                
+                <hr class="text-white-50 mt-0 mb-4">
+                
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item mb-2">
+                        <a href="{{ path('home') }}" class="nav-link {% if app.request.attributes.get('_route') == 'home' %}active{% endif %}">
+                            <i class="fa-solid fa-house w-25px me-2"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="{{ path('user_index') }}" class="nav-link {% if app.request.attributes.get('_route') == 'user_index' %}active{% endif %}">
+                            <i class="fa-solid fa-list w-25px me-2"></i> Usuários
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="{{ path('user_new') }}" class="nav-link {% if app.request.attributes.get('_route') == 'user_new' %}active{% endif %}">
+                            <i class="fa-solid fa-user-plus w-25px me-2"></i> Novo Usuário
+                        </a>
+                    </li>
+                </ul>
+                
+                <hr class="text-white-50 mb-3">
+                
+                <div class="px-2 mb-2">
+                    <a href="{{ path('app_logout') }}" class="nav-link text-white d-flex align-items-center bg-danger bg-opacity-75 rounded hover-danger">
+                        <i class="fa-solid fa-power-off w-25px me-2"></i> Encerrar Sessão
+                    </a>
+                </div>
+            </aside>
+            {% endblock %}
+
+            <main class="main-content">
+                <!-- Nova barra superior para o botão da gaveta -->
+                <header class="top-header">
+                    <button class="toggle-btn" id="sidebarToggle" title="Alternar Menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </header>
+
+                <div class="p-4 p-md-5">
+                    
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }} alert-dismissible fade show shadow-sm" role="alert">
+                                <i class="fa-solid fa-circle-info me-2"></i> {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% block body %}{% endblock %}
+                    
+                </div>
+            </main>
+            
+        </div>
+
+        <!-- JS Local -->
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Script para abrir/fechar a Gaveta -->
+        {% block javascripts %}
+        <script>
+            $(document).ready(function() {
+                // Ao clicar no botão, adiciona ou remove a classe 'collapsed' da sidebar
+                $('#sidebarToggle').on('click', function() {
+                    $('#sidebar').toggleClass('collapsed');
+                });
+            });
+        </script>
+        {% endblock %}
+    </body>
+</html>

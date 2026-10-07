@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+# See also https://symfony.com/doc/current/service_container/import.html
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+
+parameters:
+
+services:
+    # Configurações padrão para serviços deste arquivo
+    _defaults:
+        autowire: true      # Injeta dependências automaticamente pelo tipo nas assinaturas
+        autoconfigure: true # Registra comandos, subscribers, etc., automaticamente
+        bind:
+            # Informa o caminho do arquivo JSON para o construtor do JsonUserRepository
+            $filePath: '%kernel.project_dir%/var/data/users.json'
+
+    # Registra todas as classes em src/ como serviços disponíveis no container
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Domain/' # Entidades puras não devem ser registradas como serviços
+
+    # DIP (Dependency Inversion Principle): Mapeamento de Interfaces para Classes Concretas
+    # Injeção de Dependência: UserRepositoryInterface -> DoctrineUserRepositorio
+    App\Application\User\Port\UserRepositoryInterface: '@App\Infrastructure\Persistence\DoctrineUserRepositorio'
+    App\Application\User\Port\PasswordHasherInterface: '@App\Infrastructure\Security\NativePasswordHasher'
